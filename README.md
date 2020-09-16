@@ -10,6 +10,6 @@ Die gesamte Web-Anwendung besteht aus drei Schichten:
 
 ## Struktur 
 Die Web-Anwendung ist in zwei Verzeichnisse aufgeteilt: 
-* lieblings_restaurants_api = in diesem ist das Backende 
+* lieblings_restaurants_api = in diesem ist das Backend 
 * lieblings_restaurants_app = in diesem ist das Frontend
 
