@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Restaurant extends Model
 {
     /**
-     * Attribute welche "mass assignable" sind.
+     * The attributes of restaurant that are mass assignable.
      *
      * @var array
      */
