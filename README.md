@@ -1,4 +1,4 @@
-# lieblings_restaurants
+# Lieblings Restaurants
 Progressive Web-App (PWA) um sich seine Lieblings Restaurants merken zu können.
 
 ## Aufbau 
