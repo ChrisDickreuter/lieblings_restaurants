@@ -1,5 +1,5 @@
 # Lieblings Restaurants
-Progressive Web-App (PWA) um sich seine Lieblings Restaurants merken zu können.
+Progressive Web-App (PWA) um Lieblings Restaurants abzuspeichern und später wieder zu finden 
 
 ## Aufbau 
 Die gesamte Web-Anwendung besteht aus drei Schichten:
