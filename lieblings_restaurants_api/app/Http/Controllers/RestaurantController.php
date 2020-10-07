@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Restaurant;
+use App\Http\Resources\RestaurantResource;
 use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
@@ -14,8 +15,8 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        
-        return Restaurant::all();
+        $restaurants = Restaurant::all();
+        return response(['restaurants' => RestaurantResource::collection($restaurants), 'message' => 'Retrieved successfully'],200);
     }
 
     /**
