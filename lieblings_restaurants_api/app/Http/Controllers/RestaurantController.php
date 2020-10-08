@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Restaurant;
 use App\Http\Resources\RestaurantResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class RestaurantController extends Controller
 {
@@ -16,7 +17,7 @@ class RestaurantController extends Controller
     public function index()
     {
         $restaurants = Restaurant::all();
-        return response(['restaurants' => RestaurantResource::collection($restaurants), 'message' => 'Retrieved successfully'],200);
+        return response(['restaurants' => RestaurantResource::collection($restaurants), 'message' => 'Restaurants gefunden'],200);
     }
 
     /**
@@ -27,7 +28,25 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'name' => 'required', 
+            'cuisine' => 'required', 
+            'street' => 'required', 
+            'house_no' => 'required', 
+            'zip' => 'required', 
+            'city' => 'required', 
+            'phone_no' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response(['error' => $validator->errors(), 'message' =>'Validation Error']);
+        }
+
+        $restaurant = Restaurant::create($data);
+
+        return response(['restaurant' => new RestaurantResource($restaurant), 'message' => 'Restaurant gespeichert'], 200);
     }
 
     /**
@@ -38,7 +57,13 @@ class RestaurantController extends Controller
      */
     public function show($id)
     {
-        //
+        $restaurant = Restaurant::find($id);
+
+        if (empty($restaurant)) {
+            return response(['message' =>'Empty']);
+        }    
+
+        return response(['restaurant' => new RestaurantResource($restaurant), 'message' => 'Restaurant gefunden'], 200);
     }
 
     /**
@@ -50,7 +75,26 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $restaurant = Restaurant::find($id);
+
+        $validator = Validator::make($data, [
+            'name' => 'required', 
+            'cuisine' => 'required', 
+            'street' => 'required', 
+            'house_no' => 'required', 
+            'zip' => 'required', 
+            'city' => 'required', 
+            'phone_no' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response(['error' => $validator->errors(), 'message' =>'Validation Error']);
+        }
+
+        $restaurant->update($data);
+
+        return response(['restaurant' => new RestaurantResource($restaurant), 'message' => 'Restaurant geändert'], 200);
     }
 
     /**
@@ -61,6 +105,10 @@ class RestaurantController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $restaurant = Restaurant::find($id);
+
+        $restaurant->delete();
+
+        return response(['message' => 'Restaurant gelöscht']);
     }
 }
