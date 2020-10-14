@@ -6,7 +6,7 @@ Die gesamte Web-Anwendung besteht aus drei Schichten:
 
 1. Schicht: MySQL Datenbank
 2. Schicht: Backend-API mit dem PHP-Framework Laravel 7 
-3. Schicht: Frontend PWA mit dem JavaScript-Framework Vue.js
+3. Schicht: Frontend PWA mit dem JavaScript-Framework Vue.js 2
 
 ## Struktur 
 Die Web-Anwendung ist in zwei Verzeichnisse aufgeteilt: 
