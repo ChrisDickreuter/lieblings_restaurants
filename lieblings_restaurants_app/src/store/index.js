@@ -5,11 +5,11 @@ import Axios from "axios";
 Vue.use(Vuex)
 
 //Axios binding and Token Authentication 
-Axios.defaults.baseURL = "http://api.lieblings-restaurants.local/api";
+Axios.defaults.baseURL = process.env.VUE_APP_URL;
 const access_token = localStorage.getItem('access_token')
 
 if (access_token) {
-    Axios.defaults.headers.common['Authorization'] = access_token
+    Axios.defaults.headers.common['Authorization'] = "Bearer " + access_token
 }
 
 export default new Vuex.Store({
@@ -45,11 +45,11 @@ export default new Vuex.Store({
     login({commit}, user) {
         return new Promise((resolve, reject) => {
           commit('auth_request')
-          Axios.post('/login/?XDEBUG_SESSION_START=vscode', user)
+          Axios.post('/login', user)
             .then( response => {
               const access_token = response.data.access_token
               const username = response.data.user.name
-              Axios.defaults.headers.common['Authorization'] = access_token
+              Axios.defaults.headers.common['Authorization'] = "Bearer " + access_token
               commit('auth_success', access_token)
               commit('username', username)
               resolve(response)
