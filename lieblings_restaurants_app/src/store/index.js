@@ -17,7 +17,10 @@ export default new Vuex.Store({
       status: '',
       access_token: localStorage.getItem('access_token') || '',
       user: localStorage.getItem('username'),
-      expire_token: localStorage.getItem('expire_token') || '',
+      cuisines: [],
+      selectedCuisines: [],
+      cities: [],
+      selectedCities: [],
   },
   mutations: {
     auth_request(state) {
@@ -34,11 +37,22 @@ export default new Vuex.Store({
     logout(state) {
       state.status = ''
       state.access_token = ''
-      state.expire_token = ''
     },
     username(state, username) {
       state.user = username
       localStorage.setItem('username', username)
+    },
+    setCuisines(state, cuisines) {
+      state.cuisines = cuisines
+    },
+    selectCuisines(state, selectedCuisines) {
+      state.selectedCuisines = selectedCuisines
+    },
+    setCities(state, cities) {
+      state.cities = cities
+    },
+    selectCities(state, selectedCities) {
+      state.selectedCities = selectedCities
     },
   },
   actions: {
@@ -68,7 +82,6 @@ export default new Vuex.Store({
           localStorage.removeItem('token_type')
           localStorage.removeItem('access_token')
           localStorage.removeItem('refresh_token')
-          localStorage.removeItem('expire_token')
           delete Axios.defaults.headers.common['Authorization']
           resolve()
       })
@@ -76,9 +89,11 @@ export default new Vuex.Store({
   },
   getters: {
     isLoggedIn: state => !!state.access_token,
-    authStatus: state => state.status,
-    isExpired:  state =>  state.expire_token,
+    authStatus: state => state.status,    
     user: state => state.user,
+    cuisines: state => state.cuisines.sort(), 
+    selectedCuisines: state => state.selectedCuisines,
+    cities: state => state.cities.sort(), 
+    selectedCities: state => state.selectedCities,
   }
-  
 })

@@ -55,7 +55,7 @@ export default {
                 this.$store.dispatch('login', {email, password})
                     .then(() => {
                         this.isSending = false
-                        this.$router.push('/about')
+                        this.$router.push('/')
                     })
                     .catch(() => this.isSending = false)
             }
