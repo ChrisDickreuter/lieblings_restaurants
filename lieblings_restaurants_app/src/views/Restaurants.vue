@@ -23,6 +23,7 @@
     </v-container>    
 </template>
 <script>
+// @ is an alias to /src
 import api from "@/api/restaurants";
 
 export default {

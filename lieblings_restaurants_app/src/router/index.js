@@ -21,7 +21,15 @@ const routes = [
     meta: {
       requiresAuth: true
     }
-  }
+  },
+  {
+    path: '/restaurants/:id',
+    name: 'RestaurantDeatil',
+    component: () => import(/* webpackChunkName: "items" */ '../views/RestaurantDetail.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
 ]
 
 const router = new VueRouter({
