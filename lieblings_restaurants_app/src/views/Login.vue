@@ -57,7 +57,10 @@ export default {
                         this.isSending = false
                         this.$router.push('/')
                     })
-                    .catch(() => this.isSending = false)
+                    .catch((error) => {
+                        this.isSending = false
+                        console.log(error);
+                    })
             }
         }
     }
