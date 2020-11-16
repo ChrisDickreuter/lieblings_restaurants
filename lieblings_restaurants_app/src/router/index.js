@@ -30,6 +30,14 @@ const routes = [
       requiresAuth: true
     }
   },
+  {
+    path: '/restaurantedit',
+    name: 'RestaurantEdit',
+    component: () => import(/* webpackChunkName: "items" */ '../views/RestaurantEdit.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
 ]
 
 const router = new VueRouter({

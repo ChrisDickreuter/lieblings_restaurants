@@ -7,4 +7,7 @@ export default {
     getById(id) {
         return Axios.get(`/restaurants/${id}`)
     },
+    update(id, data) {
+        return Axios.put(`/restaurants/${id}`, data)
+    }
 }

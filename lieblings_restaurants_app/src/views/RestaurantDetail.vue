@@ -8,13 +8,14 @@
                 <v-card-text>
                     <v-icon>fa-map-marker</v-icon> 
                     <address>
-                    {{ restaurant.street }} {{ restaurant.house_number }}<br/>
+                    {{ restaurant.street }} {{ restaurant.house_no }}<br/>
                     {{ restaurant.zip }} {{ restaurant.city }}
                     </address>
-                    <p>{{ restaurant.phoneNo }}</p>
+                    <v-icon>fa-phone</v-icon>
+                    <p>{{ restaurant.phone_no }}</p>
                     <v-card-actions>
-                    <v-spacer></v-spacer>
-                        <v-btn @click="isEditable = !isEditable">
+                        <v-spacer></v-spacer>
+                        <v-btn @click.stop="routeToEdit">
                         <v-icon>fa-edit</v-icon>Bearbeiten
                         </v-btn>
                         <v-btn :href="`tel:${restaurant.phoneNo}`"  color="success">
@@ -28,7 +29,8 @@
 </template>
 <script>
 // @ is an alias to /src
-import api from "@/api/restaurants";
+import api from "@/api/restaurants"
+
 export default {
     data() {
         return {
@@ -45,7 +47,11 @@ export default {
             api.getById(this.$route.params.id)
                 .then(response => {
                     this.restaurant = response.data.restaurant
+                    this.$store.commit("setSelectedRestaurant", response.data.restaurant)
                 })
+        },
+        routeToEdit() {
+            this.$router.push({name: 'RestaurantEdit'})
         }
     }
 }

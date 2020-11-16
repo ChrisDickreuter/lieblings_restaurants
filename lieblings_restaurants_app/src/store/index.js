@@ -21,6 +21,7 @@ export default new Vuex.Store({
       selectedCuisines: [],
       cities: [],
       selectedCities: [],
+      selectedRestaurant: localStorage.getItem('selectedRestaurant'),
   },
   mutations: {
     auth_request(state) {
@@ -54,6 +55,10 @@ export default new Vuex.Store({
     selectCities(state, selectedCities) {
       state.selectedCities = selectedCities
     },
+    setSelectedRestaurant(state, restaurant) {
+      state.selectedRestaurant = restaurant
+      localStorage.setItem('selectedRestaurant', JSON.stringify(restaurant))
+    }    
   },
   actions: {
     login({commit}, user) {
@@ -95,5 +100,6 @@ export default new Vuex.Store({
     selectedCuisines: state => state.selectedCuisines,
     cities: state => state.cities.sort(), 
     selectedCities: state => state.selectedCities,
+    selectedRestaurant: state => state.selectedRestaurant,
   }
 })
