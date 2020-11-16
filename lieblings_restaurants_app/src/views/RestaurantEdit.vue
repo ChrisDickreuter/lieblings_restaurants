@@ -107,7 +107,10 @@ export default {
                 api.update(this.restaurant.id, this.restaurant)
                     .then(() => {
                         this.$store.commit("setSelectedRestaurant", this.restaurant)
-                        alert('Erfolgreich geändert')
+                        this.$store.commit("setSnackbarInfo","Restaurant wurde aktualisiert")
+                        this.$store.commit("toggleSnackbar")
+                        let id = this.restaurant.id
+                        this.$router.push({name: 'RestaurantDeatil', params: {id}})
                         this.loading = false
                     }) 
                     .catch((error) => {

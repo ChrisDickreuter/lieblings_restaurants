@@ -14,7 +14,6 @@ if (access_token) {
 
 export default new Vuex.Store({
   state: {
-      status: '',
       access_token: localStorage.getItem('access_token') || '',
       user: localStorage.getItem('username'),
       cuisines: [],
@@ -22,21 +21,16 @@ export default new Vuex.Store({
       cities: [],
       selectedCities: [],
       selectedRestaurant: localStorage.getItem('selectedRestaurant'),
+      showSnackbar: false,
+      snackbarInfo: '',
   },
   mutations: {
-    auth_request(state) {
-      state.status = 'loading'
-    },
     auth_success(state, access_token) {
-      state.status = 'success'
       state.access_token = access_token
       localStorage.setItem('access_token', access_token)
     },
-    auth_error(state) {
-      state.status = 'error'
-    },
+    
     logout(state) {
-      state.status = ''
       state.access_token = ''
     },
     username(state, username) {
@@ -58,12 +52,17 @@ export default new Vuex.Store({
     setSelectedRestaurant(state, restaurant) {
       state.selectedRestaurant = restaurant
       localStorage.setItem('selectedRestaurant', JSON.stringify(restaurant))
-    }    
+    },
+    toggleSnackbar(state) {
+      state.showSnackbar = !state.showSnackbar 
+    },
+    setSnackbarInfo(state, info) {
+        state.snackbarInfo = info
+    },    
   },
   actions: {
     login({commit}, user) {
         return new Promise((resolve, reject) => {
-          commit('auth_request')
           Axios.post('/login', user)
             .then( response => {
               const access_token = response.data.access_token
@@ -84,9 +83,7 @@ export default new Vuex.Store({
     logout({commit}) {
       return new Promise((resolve) => {
           commit('logout')
-          localStorage.removeItem('token_type')
           localStorage.removeItem('access_token')
-          localStorage.removeItem('refresh_token')
           delete Axios.defaults.headers.common['Authorization']
           resolve()
       })
@@ -94,12 +91,13 @@ export default new Vuex.Store({
   },
   getters: {
     isLoggedIn: state => !!state.access_token,
-    authStatus: state => state.status,    
     user: state => state.user,
     cuisines: state => state.cuisines.sort(), 
     selectedCuisines: state => state.selectedCuisines,
     cities: state => state.cities.sort(), 
     selectedCities: state => state.selectedCities,
     selectedRestaurant: state => state.selectedRestaurant,
+    showSnackbar: state => state.showSnackbar,
+    snackbarInfo: state => state.snackbarInfo,
   }
 })

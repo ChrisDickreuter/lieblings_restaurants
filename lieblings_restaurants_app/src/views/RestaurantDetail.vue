@@ -1,5 +1,6 @@
 <template>
     <v-container>
+        <infoSnackbar :message="info" :showSnackbar="showSnackbar" @closeSnackbar="close"></infoSnackbar>
         <v-row 
             v-if="loading"
         >
@@ -36,10 +37,13 @@
 // @ is an alias to /src
 import api from "@/api/restaurants"
 import Loading from "@/components/Loading"
+import InfoSnackbar from "@/components/InfoSnackbar"
+
 
 export default {
      components: {
-        Loading
+        Loading,
+        InfoSnackbar
     },
 
     data() {
@@ -51,6 +55,15 @@ export default {
 
    mounted() {
         this.fetchData()
+    },
+
+    computed: {
+        showSnackbar() {
+            return this.$store.getters.showSnackbar
+        },
+        info() {
+            return this.$store.getters.snackbarInfo
+        },
     },
 
     methods: {
@@ -69,7 +82,10 @@ export default {
         },
         routeToEdit() {
             this.$router.push({name: 'RestaurantEdit'})
-        }
+        },
+        close() {
+            this.$store.commit("toggleSnackbar")
+        },
     }
 }
 </script>
