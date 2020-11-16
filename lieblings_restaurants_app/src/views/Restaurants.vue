@@ -57,7 +57,7 @@ export default {
         fetchData() {
             api.all()
                 .then(response => {
-                    this.restaurants = response.data.restaurants
+                    this.restaurants = response.data.restaurants.sort((a,b)=> (a.name > b.name ? 1 : -1))
                     let cuisines = this.restaurants.map(restaurant => restaurant.cuisine)
                     let uniquecuisines = cuisines.filter((item, index) => cuisines.indexOf(item) == index)
                     this.$store.commit("setCuisines", uniquecuisines)   
