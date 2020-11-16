@@ -1,9 +1,16 @@
 <template>
     <v-container>
         <v-row dense>
+            <v-col 
+              cols=12
+              v-if="loading"
+            >
+                <loading message="Restaurants werden geladen"></loading>
+            </v-col>
             <v-col
                 v-for="restaurant in filteredRestaurants" :key="restaurant.id"
-                cols=12 sm="6" md="4">                
+                cols=12 sm=6 md=4
+                v-else>                
                 <v-card elevation="1" class="ma-3">
                     <v-card-title class="primary--text text--darken-2" v-text="restaurant.name"></v-card-title>
                     <v-divider></v-divider>
@@ -24,12 +31,18 @@
 </template>
 <script>
 // @ is an alias to /src
-import api from "@/api/restaurants";
+import api from "@/api/restaurants"
+import Loading from "@/components/Loading"
 
 export default {
+    components: {
+        Loading
+    },
+
     data() {
         return {
             restaurants: [],
+            loading: false,
         }
     },
 
@@ -55,6 +68,7 @@ export default {
 
     methods: {
         fetchData() {
+            this.loading = true
             api.all()
                 .then(response => {
                     this.restaurants = response.data.restaurants.sort((a,b)=> (a.name > b.name ? 1 : -1))
@@ -64,6 +78,11 @@ export default {
                     let cities = this.restaurants.map(restaurant => restaurant.city)
                     let uniquecities = cities.filter((item, index) => cities.indexOf(item) == index)
                     this.$store.commit("setCities", uniquecities)
+                    this.loading = false
+                })
+                .catch((error) => {
+                    this.loading = false
+                    console.log(error);
                 })
         },
         routeTo(id) {

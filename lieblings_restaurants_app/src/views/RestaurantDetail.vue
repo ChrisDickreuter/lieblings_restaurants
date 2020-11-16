@@ -1,6 +1,11 @@
 <template>
     <v-container>
-        <v-row>
+        <v-row 
+            v-if="loading"
+        >
+            <loading message="Restaurant wird geladen"></loading>
+        </v-row>
+        <v-row v-else>
             <v-card class="mx-auto">
                 <v-card-title>{{ restaurant.name }}</v-card-title>
                 <v-card-subtitle><v-icon>fa-cutlery</v-icon> {{ restaurant.cuisine }}</v-card-subtitle>
@@ -30,11 +35,17 @@
 <script>
 // @ is an alias to /src
 import api from "@/api/restaurants"
+import Loading from "@/components/Loading"
 
 export default {
+     components: {
+        Loading
+    },
+
     data() {
         return {
             restaurant: {},
+            loading: false,
         }
     },
 
@@ -44,10 +55,16 @@ export default {
 
     methods: {
         fetchData() {
+            this.loading = true
             api.getById(this.$route.params.id)
                 .then(response => {
                     this.restaurant = response.data.restaurant
                     this.$store.commit("setSelectedRestaurant", response.data.restaurant)
+                    this.loading = false
+                })
+                .catch((error) => {
+                    this.loading = false
+                    console.log(error);
                 })
         },
         routeToEdit() {

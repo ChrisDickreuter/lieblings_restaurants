@@ -2,7 +2,10 @@
     <v-container>        
     <h1>Restaurant aktualisieren</h1>
     <v-form @submit.prevent="onSubmit" ref="form">
-        <v-container>
+        <v-container v-if="loading">
+             <loading message="Restaurant wird aktualisiert"></loading>
+        </v-container>
+        <v-container v-else>
             <v-row>
                 <v-col cols="12" sm="6">
                     <v-text-field
@@ -71,11 +74,17 @@
 <script>
 // @ is an alias to /src
 import api from "@/api/restaurants"
+import Loading from "@/components/Loading"
 
 export default {
+    components: {
+        Loading
+    },
+
     data() {
         return {
-            restaurant: []
+            restaurant: [],
+            loading: false,
         }
     },
 
@@ -93,11 +102,17 @@ export default {
             }
         },
         onSubmit(){
+            this.loading = true
             if (this.$refs.form.validate()) {
                 api.update(this.restaurant.id, this.restaurant)
                     .then(() => {
                         this.$store.commit("setSelectedRestaurant", this.restaurant)
                         alert('Erfolgreich geändert')
+                        this.loading = false
+                    }) 
+                    .catch((error) => {
+                        this.loading = false
+                        console.log(error);
                     })
             }
         }
