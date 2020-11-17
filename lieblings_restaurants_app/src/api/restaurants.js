@@ -9,5 +9,8 @@ export default {
     },
     update(id, data) {
         return Axios.put(`/restaurants/${id}`, data)
-    }
+    },
+    store(data) {
+        return Axios.post('/restaurants', data)
+    },
 }

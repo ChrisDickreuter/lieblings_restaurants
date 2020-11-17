@@ -38,6 +38,14 @@ const routes = [
       requiresAuth: true
     }
   },
+  {
+    path: '/create/restaurants',
+    name: 'RestaurantCreate',
+    component: () => import(/* webpackChunkName: "items" */ '../views/RestaurantCreate.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
 ]
 
 const router = new VueRouter({

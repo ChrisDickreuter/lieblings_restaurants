@@ -1,9 +1,9 @@
 <template>
 <v-container>        
-    <h1>Restaurant aktualisieren</h1>
+    <h1>Restaurant hinzufügen</h1>
     <v-form @submit.prevent="onSubmit" ref="form">
         <v-container v-if="loading">
-             <loading message="Restaurant wird aktualisiert"></loading>
+             <loading message="Restaurant wird angelegt"></loading>
         </v-container>
         <v-container v-else>
             <v-row>
@@ -64,7 +64,7 @@
                     ></v-text-field>
                 </v-col>
                 <v-btn color="primary" type="submit" mb-2>
-                    Restaurant aktualisieren
+                    Restaurant anlegen
                 </v-btn>
             </v-row>
         </v-container>
@@ -72,7 +72,6 @@
 </v-container>
 </template>
 <script>
-// @ is an alias to /src
 import api from "@/api/restaurants"
 import Loading from "@/components/Loading"
 
@@ -80,45 +79,30 @@ export default {
     components: {
         Loading
     },
-
     data() {
         return {
-            restaurant: [],
+            restaurant: {},
             loading: false,
         }
     },
 
-    mounted() {
-        this.fetchData()
-    },
-
     methods: {
-        fetchData() {
-            let selectedRestaurant = this.$store.getters.selectedRestaurant
-            if (typeof selectedRestaurant === "string") {
-                this.restaurant = JSON.parse(selectedRestaurant)
-            } else {
-                this.restaurant = selectedRestaurant
-            }
-        },
-        onSubmit(){
-            this.loading = true
-            if (this.$refs.form.validate()) {
-                api.update(this.restaurant.id, this.restaurant)
-                    .then(() => {
-                        this.$store.commit("setSelectedRestaurant", this.restaurant)
-                        this.$store.commit("setSnackbarInfo","Restaurant wurde aktualisiert")
-                        this.$store.commit("toggleSnackbar")
-                        let id = this.restaurant.id
-                        this.$router.push({name: 'RestaurantDeatil', params: {id}})
-                        this.loading = false
-                    }) 
-                    .catch((error) => {
-                        this.loading = false
-                        console.log(error);
-                    })
-            }
+        onSubmit() {
+             if (this.$refs.form.validate()) {
+               this.loading = true
+               api.store(this.restaurant)
+                .then(() => {
+                    this.$store.commit("setSnackbarInfo","Restaurant wurde angelegt")
+                    this.$store.commit("toggleSnackbar")
+                    this.loading = false
+                    this.$router.push({name: 'Restaurants'})
+                })
+                .catch((error) => {   
+                    this.loading = false               
+                    console.log(error);
+                })  
+            }    
         }
-    }
+    },
 }
 </script>

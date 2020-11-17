@@ -1,6 +1,8 @@
 <template>
     <v-container>
+        
         <v-row dense>
+            <infoSnackbar :message="info" :showSnackbar="showSnackbar" @closeSnackbar="close"></infoSnackbar>
             <v-col 
               cols=12
               v-if="loading"
@@ -33,10 +35,12 @@
 // @ is an alias to /src
 import api from "@/api/restaurants"
 import Loading from "@/components/Loading"
+import InfoSnackbar from "@/components/InfoSnackbar"
 
 export default {
     components: {
-        Loading
+        Loading,
+        InfoSnackbar
     },
 
     data() {
@@ -64,6 +68,12 @@ export default {
                 return this.restaurants
             } 
         },
+        showSnackbar() {
+            return this.$store.getters.showSnackbar
+        },
+        info() {
+            return this.$store.getters.snackbarInfo
+        },
     },
 
     methods: {
@@ -87,6 +97,9 @@ export default {
         },
         routeTo(id) {
             this.$router.push({name: 'RestaurantDeatil', params: {id}})
+        },
+        close() {
+            this.$store.commit("toggleSnackbar")
         },
     }
 }
