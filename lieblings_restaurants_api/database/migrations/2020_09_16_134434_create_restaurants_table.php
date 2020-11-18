@@ -22,6 +22,8 @@ class CreateRestaurantsTable extends Migration
             $table->string('zip');
             $table->string('city');
             $table->string('phone_no');
+            $table->string('url');
+            $table->boolean('food_orderable');
             $table->timestamps();
         });
     }

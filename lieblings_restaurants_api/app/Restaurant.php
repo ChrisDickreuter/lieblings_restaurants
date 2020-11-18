@@ -18,7 +18,9 @@ class Restaurant extends Model
         'house_no', 
         'zip', 
         'city', 
-        'phone_no'
+        'phone_no',
+        'url',
+        'food_orderable'
     ];
 
 }
