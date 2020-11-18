@@ -14,6 +14,18 @@ class RestaurantResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'cuisine' => $this->cuisine,
+            'street' => $this->street,
+            'house_no' => $this->house_number,
+            'zip' => $this->zip,
+            'city' => $this->city,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+            'phone_no' => $this->phoneNo,
+            'comments' => CommentResource::collection($this->comments),
+        ];
     }
 }
