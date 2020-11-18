@@ -24,7 +24,9 @@ class RestaurantResource extends JsonResource
             'city' => $this->city,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
-            'phone_no' => $this->phoneNo,
+            'phone_no' => $this->phone_no,
+            'url' => $this->url,
+            'food_orderable' => $this->food_orderable,
             'comments' => CommentResource::collection($this->comments),
         ];
     }
