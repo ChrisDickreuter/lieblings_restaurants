@@ -20,5 +20,6 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::apiResource('/restaurants', 'RestaurantController')->middleware('auth:api'); 
+Route::apiResource('/comments', 'CommentController')->middleware('auth:api');
 
 

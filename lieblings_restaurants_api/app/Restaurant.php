@@ -23,4 +23,12 @@ class Restaurant extends Model
         'food_orderable'
     ];
 
+    /**
+     * Get the comments of the restaurant.
+     */
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
+
 }
