@@ -4,21 +4,22 @@
         <v-row dense>
             <infoSnackbar :message="info" :showSnackbar="showSnackbar" @closeSnackbar="close"></infoSnackbar>
             <v-col 
-              cols=12
+              cols="12"
               v-if="loading"
             >
                 <loading message="Restaurants werden geladen"></loading>
             </v-col>
             <v-col
                 v-for="restaurant in filteredRestaurants" :key="restaurant.id"
-                cols=12 sm=6 md=4
+                cols="12" sm="6" md="4"
                 v-else>                
                 <v-card elevation="1" class="ma-3">
                     <v-card-title class="primary--text text--darken-2" v-text="restaurant.name"></v-card-title>
                     <v-divider></v-divider>
                     <v-card-subtitle>
                        <p><v-icon>fa-cutlery</v-icon> {{ restaurant.cuisine }}</p> 
-                        <p><v-icon>fa-map-marker</v-icon> {{ restaurant.city }}</p> 
+                        <p><v-icon>fa-map-marker</v-icon> {{ restaurant.city }}</p>
+                        <p v-if="restaurant.food_orderable"><v-icon>fa-shopping-basket</v-icon> Essen kann bestellt und geholt werden</p> 
                     </v-card-subtitle>
                     <v-card-actions>
                         <v-spacer></v-spacer>
@@ -59,13 +60,13 @@ export default {
             let cuisines = this.$store.getters.selectedCuisines
             let cities = this.$store.getters.selectedCities
             if (cuisines.length > 0 && cities.length == 0) {
-                return this.restaurants.filter(restaurant => cuisines.includes(restaurant.cuisine));
+                return this.checkFoodOrderable(this.restaurants.filter(restaurant => cuisines.includes(restaurant.cuisine)))
             } else if (cuisines.length == 0 && cities.length > 0) {
-                return this.restaurants.filter(restaurant => cities.includes(restaurant.city));
+                return this.checkFoodOrderable(this.restaurants.filter(restaurant => cities.includes(restaurant.city)))
             } else if (cuisines.length > 0 && cities.length > 0) {
-                return this.restaurants.filter(restaurant => cuisines.includes(restaurant.cuisine) && cities.includes(restaurant.city));
+                return this.checkFoodOrderable(this.restaurants.filter(restaurant => cuisines.includes(restaurant.cuisine) && cities.includes(restaurant.city)))
             }else {
-                return this.restaurants
+                return this.checkFoodOrderable(this.restaurants)
             } 
         },
         showSnackbar() {
@@ -73,7 +74,7 @@ export default {
         },
         info() {
             return this.$store.getters.snackbarInfo
-        },
+        },        
     },
 
     methods: {
@@ -100,6 +101,13 @@ export default {
         },
         close() {
             this.$store.commit("toggleSnackbar")
+        },
+        checkFoodOrderable(restaurants) {
+            if(this.$store.getters.isFoodOrderable) {
+                return restaurants.filter(restaurant => restaurant.food_orderable == true)
+            } else {
+                return restaurants
+            }
         },
     }
 }

@@ -69,7 +69,7 @@
                 </v-list-item-content>
             </v-list-item>
             <v-list-item>
-                <v-list-item-content >
+                <v-list-item-content>
                     <v-combobox
                       v-model="selectedCities"
                       :items="cities"
@@ -78,6 +78,15 @@
                       multiple
                       chips
                     ></v-combobox>
+                </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+                <v-list-item-content>
+                    <v-switch
+                      v-model="isFoodOrderable"
+                      @change="onFoodOrderableChange"
+                      :label="`Essen bestellen möglich`"
+                    ></v-switch>
                 </v-list-item-content>
             </v-list-item>
             <v-list-item>
@@ -99,7 +108,8 @@ export default {
                 {id:2, text: 'Restaurant hinzufügen', icon: 'fa-plus-circle' , target: 'RestaurantCreate'},
             ],
             selectedCuisines: [],
-            selectedCities: [],    
+            selectedCities: [],
+            isFoodOrderable: false,    
         }
     },
 
@@ -121,6 +131,9 @@ export default {
         },
         onCitiesChange() {
             this.$store.commit("selectCities", this.selectedCities)
+        },
+        onFoodOrderableChange() {
+            this.$store.commit("toogleIsFoodOrderable")
         },
         clearSelection() {
             this.selectedCuisines = []

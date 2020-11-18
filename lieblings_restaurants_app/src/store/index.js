@@ -23,6 +23,7 @@ export default new Vuex.Store({
       selectedRestaurant: localStorage.getItem('selectedRestaurant'),
       showSnackbar: false,
       snackbarInfo: '',
+      isFoodOrderable: false,
   },
   mutations: {
     auth_success(state, access_token) {
@@ -58,6 +59,9 @@ export default new Vuex.Store({
     },
     setSnackbarInfo(state, info) {
         state.snackbarInfo = info
+    },
+    toogleIsFoodOrderable(state) {
+      state.isFoodOrderable = !state.isFoodOrderable
     },    
   },
   actions: {
@@ -99,5 +103,6 @@ export default new Vuex.Store({
     selectedRestaurant: state => state.selectedRestaurant,
     showSnackbar: state => state.showSnackbar,
     snackbarInfo: state => state.snackbarInfo,
+    isFoodOrderable: state => state.isFoodOrderable,
   }
 })

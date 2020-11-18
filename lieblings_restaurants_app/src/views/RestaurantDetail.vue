@@ -19,6 +19,10 @@
                     </address>
                     <v-icon>fa-phone</v-icon>
                     <p>{{ restaurant.phone_no }}</p>
+                    <span v-if="restaurant.url">
+                        <v-icon>fa-globe</v-icon>
+                        <p><a :href="restaurant.url" target="_blank">{{ restaurant.url }}</a></p>
+                    </span>
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn @click.stop="routeToEdit">
