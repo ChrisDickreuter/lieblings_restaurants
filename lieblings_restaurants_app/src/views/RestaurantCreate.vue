@@ -63,6 +63,18 @@
                      required
                     ></v-text-field>
                 </v-col>
+                <v-col cols="12" sm="6">
+                    <v-text-field
+                     v-model="restaurant.url"
+                     label="Webseite"
+                    ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6">
+                    <v-checkbox
+                      v-model="restaurant.food_orderable"
+                      label="Essen kann bestellt werden"
+                    ></v-checkbox>
+                </v-col>
                 <v-btn color="primary" type="submit" mb-2>
                     Restaurant anlegen
                 </v-btn>

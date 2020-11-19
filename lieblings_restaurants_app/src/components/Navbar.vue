@@ -140,6 +140,8 @@ export default {
             this.selectedCities = []
             this.$store.commit("selectCuisines", this.selectedCuisines)
             this.$store.commit("selectCities", this.selectedCities)
+            this.isFoodOrderable = false
+            this.$store.commit("toogleIsFoodOrderable")    
         },
         routeTo(name) {
             if (this.$router.currentRoute.name === name) {
