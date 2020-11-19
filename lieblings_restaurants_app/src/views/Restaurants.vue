@@ -1,8 +1,7 @@
 <template>
     <v-container>
-        
-        <v-row dense>
-            <infoSnackbar :message="info" :showSnackbar="showSnackbar" @closeSnackbar="close"></infoSnackbar>
+        <infoSnackbar :message="info" :showSnackbar="showSnackbar" @closeSnackbar="close"></infoSnackbar>
+        <v-row dense>            
             <v-col 
               cols="12"
               v-if="loading"
