@@ -67,7 +67,7 @@ export default new Vuex.Store({
   actions: {
     login({commit}, user) {
         return new Promise((resolve, reject) => {
-          Axios.post('/login', user)
+          Axios.post('/login?XDEBUG_SESSION_START=vscode', user)
             .then( response => {
               const access_token = response.data.access_token
               const username = response.data.user.name
@@ -76,11 +76,10 @@ export default new Vuex.Store({
               commit('username', username)
               resolve(response)
             })
-        .catch(error => {
-          commit('auth_error')
-            localStorage.removeItem('access_token')
-            localStorage.removeItem('username')
-            reject(error)
+            .catch((error) => {
+              localStorage.removeItem('access_token')
+              localStorage.removeItem('username')
+              reject(error)
         })
       })
     },

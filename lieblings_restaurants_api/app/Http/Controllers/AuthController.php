@@ -1,24 +1,33 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function login(Request $request)
-    {
-        $loginData = $request->validate([
-            'email' => 'email|required',
-            'password' => 'required'
+    {   
+        $input = $request->all();
+  
+        $this->validate($request, [
+            'name' => 'required',
+            'password' => 'required',
         ]);
-
-        if(!auth()->attempt($loginData)) {
-            return response(['message' => 'E-Mail oder Passwort falsch!']);
+  
+        $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        if(Auth::attempt(array($fieldType => $input['name'], 'password' => $input['password'])))
+        {
+            $accessToken = auth()->user()->createToken('authToken')->accessToken;
+            return response(['user' => auth()->user(), 'access_token' => $accessToken, 'message' => 'Erfolgreich eingelogged']);
+        } else {
+            return response(['message' => 'und?']);
         }
-
-        $accessToken = auth()->user()->createToken('authToken')->accessToken;
-
-        return response(['user' => auth()->user(), 'access_token' => $accessToken]);
+          
     }
 }

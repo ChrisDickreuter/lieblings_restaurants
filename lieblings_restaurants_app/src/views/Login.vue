@@ -10,16 +10,22 @@
                             </div>
                         </v-card-title>
                         <v-card-text class="pt-0">
+                            <p class="red--text" v-if="error">Name oder Passwort falsch</p>
                             <v-text-field 
                                 validate-on-blur 
                                 label="Name" 
-                                required :rules="emailRules"
-                                type="email" 
-                                v-model="email"></v-text-field>
+                                required 
+                                type="text"
+                                :rules="[(v) => !!v || 'Bitte Name eingeben']" 
+                                v-model="name"
+                                @input="error = false"></v-text-field>
                             <v-text-field validate-on-blur 
-                                label="Passwort" required
-                                :rules="[(v) => !!v || 'Bitte Passwort eingeben']" type="password"
-                                v-model="password"></v-text-field>
+                                label="Passwort" 
+                                required
+                                :rules="[(v) => !!v || 'Bitte Passwort eingeben']" 
+                                type="password"
+                                v-model="password"
+                                @input="error = false"></v-text-field>
                         </v-card-text>
                         <v-card-actions class="pb-3 pl-3 pt-0">
                             <v-btn :loading="isSending" 
@@ -37,12 +43,10 @@ export default {
     data() {
         return {
             valid: false,
-            email: "",
+            name: "",
             password: "",
             isSending: false,
-            emailRules: [
-                (v) => !!v || 'Bitte gebe deine E-Mail ein'
-            ]
+            error: false
         }
     },
     methods: {
@@ -50,15 +54,16 @@ export default {
             if(this.$refs.form.validate()) {
                 this.valid = true
                 this.isSending = true
-                let email = this.email
+                let name = this.name
                 let password = this.password
-                this.$store.dispatch('login', {email, password})
+                this.$store.dispatch('login', {name, password})
                     .then(() => {
                         this.isSending = false
                         this.$router.push('/')
                     })
                     .catch((error) => {
                         this.isSending = false
+                        this.error = true
                         console.log(error);
                     })
             }
