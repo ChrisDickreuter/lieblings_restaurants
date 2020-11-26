@@ -10,7 +10,7 @@
                             </div>
                         </v-card-title>
                         <v-card-text class="pt-0">
-                            <p class="red--text" v-if="error">Name oder Passwort falsch</p>
+                            <p class="red--text" v-if="error">{{ errorMessage }}</p>
                             <v-text-field 
                                 validate-on-blur 
                                 label="Name" 
@@ -46,7 +46,8 @@ export default {
             name: "",
             password: "",
             isSending: false,
-            error: false
+            error: false,
+            errorMessage: ''
         }
     },
     methods: {
@@ -57,9 +58,14 @@ export default {
                 let name = this.name
                 let password = this.password
                 this.$store.dispatch('login', {name, password})
-                    .then(() => {
+                    .then((response) => {
                         this.isSending = false
-                        this.$router.push('/')
+                        if(response.data.error) {
+                            this.error = true
+                            this.errorMessage = response.data.error
+                        } else {
+                            this.$router.push('/')
+                        }
                     })
                     .catch((error) => {
                         this.isSending = false

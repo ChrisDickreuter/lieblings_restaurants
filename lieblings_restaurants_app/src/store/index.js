@@ -73,11 +73,13 @@ export default new Vuex.Store({
         return new Promise((resolve, reject) => {
           Axios.post('/login?XDEBUG_SESSION_START=vscode', user)
             .then( response => {
-              const access_token = response.data.access_token
-              const username = response.data.user.name
-              Axios.defaults.headers.common['Authorization'] = "Bearer " + access_token
-              commit('auth_success', access_token)
-              commit('username', username)
+              if(response.data.access_token) {
+                const access_token = response.data.access_token
+                const username = response.data.user.name
+                Axios.defaults.headers.common['Authorization'] = "Bearer " + access_token
+                commit('auth_success', access_token)
+                commit('username', username)
+              }
               resolve(response)
             })
             .catch((error) => {

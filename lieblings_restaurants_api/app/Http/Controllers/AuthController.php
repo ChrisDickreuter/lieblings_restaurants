@@ -21,12 +21,13 @@ class AuthController extends Controller
         ]);
   
         $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        
         if(Auth::attempt(array($fieldType => $input['name'], 'password' => $input['password'])))
         {
             $accessToken = auth()->user()->createToken('authToken')->accessToken;
             return response(['user' => auth()->user(), 'access_token' => $accessToken, 'message' => 'Erfolgreich eingelogged']);
         } else {
-            return response(['message' => 'und?']);
+            return response(['error' => 'Name oder Passwort falsch']);
         }
           
     }
