@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <infoSnackbar :message="info" :showSnackbar="showSnackbar" @closeSnackbar="close"></infoSnackbar>
+        <infoSnackbar :message="snackbarInfo" :showSnackbar="showSnackbar" :color="snackbarColor" @closeSnackbar="close"></infoSnackbar>
         <v-row dense>            
             <v-col 
               cols="12"
@@ -71,9 +71,12 @@ export default {
         showSnackbar() {
             return this.$store.getters.showSnackbar
         },
-        info() {
+        snackbarInfo() {
             return this.$store.getters.snackbarInfo
-        },        
+        },
+        snackbarColor() {
+            return this.$store.getters.snackbarColor
+        }        
     },
 
     methods: {

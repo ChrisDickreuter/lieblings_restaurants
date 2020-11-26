@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <infoSnackbar :message="info" :showSnackbar="showSnackbar" @closeSnackbar="close"></infoSnackbar>
+        <infoSnackbar :message="info" :showSnackbar="showSnackbar" :color="snackbarColor" @closeSnackbar="close"></infoSnackbar>
         <v-row v-if="loading">
             <loading message="Restaurant wird geladen"></loading>
         </v-row>
@@ -72,8 +72,6 @@ import apiComment from "@/api/comments"
 import Loading from "@/components/Loading"
 import InfoSnackbar from "@/components/InfoSnackbar"
 
-
-
 export default {
      components: {
         Loading,
@@ -99,6 +97,9 @@ export default {
         info() {
             return this.$store.getters.snackbarInfo
         },
+        snackbarColor() {
+            return this.$store.getters.snackbarColor
+        }
     },
 
     methods: {

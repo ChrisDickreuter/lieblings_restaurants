@@ -37,11 +37,11 @@ class RestaurantController extends Controller
             'house_no' => 'required', 
             'zip' => 'required', 
             'city' => 'required', 
-            'phone_no' => 'required'
+            'phone_no' => 'required',
         ]);
 
         if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'message' =>'Validation Error']);
+            return response(['error' => $validator->errors(), 'message' =>'Fehler bei Validation auf Server']);
         }
 
         $restaurant = Restaurant::create($data);
@@ -85,11 +85,11 @@ class RestaurantController extends Controller
             'house_no' => 'required', 
             'zip' => 'required', 
             'city' => 'required', 
-            'phone_no' => 'required'
+            'phone_no' => 'required',
         ]);
 
         if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'message' =>'Validation Error']);
+            return response(['error' => $validator->errors(), 'message' =>'Fehler bei Validation auf Server']);
         }
 
         $restaurant->update($data);

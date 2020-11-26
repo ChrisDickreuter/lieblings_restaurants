@@ -117,9 +117,15 @@ export default {
             this.loading = true
             if (this.$refs.form.validate()) {
                 api.update(this.restaurant.id, this.restaurant)
-                    .then(() => {
-                        this.$store.commit("setSelectedRestaurant", this.restaurant)
-                        this.$store.commit("setSnackbarInfo","Restaurant wurde aktualisiert")
+                    .then((response) => {
+                        if (response.data.error) {
+                            this.$store.commit("setsnackbarColor", 'error')
+                            console.log(response.data.error);
+                        } else {
+                            this.$store.commit("setsnackbarColor", 'success')
+                            this.$store.commit("setSelectedRestaurant", this.restaurant)
+                        }                        
+                        this.$store.commit("setSnackbarInfo", response.data.message)
                         this.$store.commit("toggleSnackbar")
                         let id = this.restaurant.id
                         this.$router.push({name: 'RestaurantDeatil', params: {id}})
@@ -128,7 +134,10 @@ export default {
                     .catch((error) => {
                         this.loading = false
                         console.log(error);
+                        
                     })
+            } else {
+                this.loading =false
             }
         }
     }

@@ -23,6 +23,7 @@ export default new Vuex.Store({
       selectedRestaurant: localStorage.getItem('selectedRestaurant'),
       showSnackbar: false,
       snackbarInfo: '',
+      snackbarColor: '',
       isFoodOrderable: false,
   },
   mutations: {
@@ -59,6 +60,9 @@ export default new Vuex.Store({
     },
     setSnackbarInfo(state, info) {
         state.snackbarInfo = info
+    },
+    setsnackbarColor(state, color) {
+      state.snackbarColor = color
     },
     toogleIsFoodOrderable(state) {
       state.isFoodOrderable = !state.isFoodOrderable
@@ -102,6 +106,7 @@ export default new Vuex.Store({
     selectedRestaurant: state => state.selectedRestaurant,
     showSnackbar: state => state.showSnackbar,
     snackbarInfo: state => state.snackbarInfo,
+    snackbarColor: state => state.snackbarColor,
     isFoodOrderable: state => state.isFoodOrderable,
   }
 })

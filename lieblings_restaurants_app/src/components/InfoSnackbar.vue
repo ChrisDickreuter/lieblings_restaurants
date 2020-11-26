@@ -1,11 +1,11 @@
 <template>
     <div class="text-center ma-2">
         <v-snackbar
-            :value="showSnackbar"
-            @input="closeSnackbar"
-            color="success"
-            top
-            :timeout=6000
+          :value="showSnackbar"
+          @input="closeSnackbar"
+          :color="color"
+          top
+         :timeout=6000
         >
             {{ message }}
              <template v-slot:action="{ attrs }">
@@ -25,7 +25,8 @@
 export default {
     props: {
         message: String,
-        showSnackbar: Boolean,    
+        showSnackbar: Boolean,
+        color: String    
     },
     methods: {
         closeSnackbar() {

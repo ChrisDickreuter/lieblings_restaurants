@@ -1,5 +1,6 @@
 <template>
-<v-container>        
+<v-container>
+    <infoSnackbar :message="info" :showSnackbar="showSnackbar" :color="snackbarColor" @closeSnackbar="close"></infoSnackbar>        
     <h1>Restaurant hinzufügen</h1>
     <v-form @submit.prevent="onSubmit" ref="form">
         <v-container v-if="loading">
@@ -84,12 +85,15 @@
 </v-container>
 </template>
 <script>
+// @ is an alias to /src
 import api from "@/api/restaurants"
 import Loading from "@/components/Loading"
+import InfoSnackbar from "@/components/InfoSnackbar"
 
 export default {
     components: {
-        Loading
+        Loading,
+        InfoSnackbar
     },
     data() {
         return {
@@ -98,23 +102,47 @@ export default {
         }
     },
 
+    computed: {
+        showSnackbar() {
+            return this.$store.getters.showSnackbar
+        },
+        info() {
+            return this.$store.getters.snackbarInfo
+        },
+        snackbarColor() {
+            return this.$store.getters.snackbarColor
+        }
+    },
+
     methods: {
         onSubmit() {
-             if (this.$refs.form.validate()) {
-               this.loading = true
-               api.store(this.restaurant)
-                .then(() => {
-                    this.$store.commit("setSnackbarInfo","Restaurant wurde angelegt")
+            this.loading = true
+            if (this.$refs.form.validate()) {               
+                api.store(this.restaurant)
+                .then((response) => {
+                    let snackbarColor = (response.data.error) ? 'error' : 'success' 
+                    this.$store.commit("setsnackbarColor", snackbarColor)
+                    this.$store.commit("setSnackbarInfo", response.data.message)
                     this.$store.commit("toggleSnackbar")
                     this.loading = false
-                    this.$router.push({name: 'Restaurants'})
+
+                    if (response.data.error) {                        
+                        console.log(response.data.error);
+                    } else {
+                        this.$router.push({name: 'Restaurants'})
+                    }  
                 })
                 .catch((error) => {   
                     this.loading = false               
                     console.log(error);
                 })  
-            }    
-        }
+            } else {
+                this.loading =false
+            }  
+        },
+        close() {
+            this.$store.commit("toggleSnackbar")
+        },
     },
 }
 </script>
