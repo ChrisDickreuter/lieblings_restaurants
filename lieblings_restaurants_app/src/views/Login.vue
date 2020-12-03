@@ -55,9 +55,9 @@ export default {
             if(this.$refs.form.validate()) {
                 this.valid = true
                 this.isSending = true
-                let name = this.name
+                let email = this.name
                 let password = this.password
-                this.$store.dispatch('login', {name, password})
+                this.$store.dispatch('login', {email, password})
                     .then((response) => {
                         this.isSending = false
                         if(response.data.error) {
