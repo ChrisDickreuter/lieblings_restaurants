@@ -16,13 +16,13 @@ class AuthController extends Controller
         $input = $request->all();
   
         $this->validate($request, [
-            'name' => 'required',
+            'email' => 'required',
             'password' => 'required',
         ]);
   
-        $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
         
-        if(Auth::attempt(array($fieldType => $input['name'], 'password' => $input['password'])))
+        if(Auth::attempt(array($fieldType => $input['email'], 'password' => $input['password'])))
         {
             $accessToken = auth()->user()->createToken('authToken')->accessToken;
             return response(['user' => auth()->user(), 'access_token' => $accessToken, 'message' => 'Erfolgreich eingelogged']);
