@@ -71,7 +71,7 @@ export default new Vuex.Store({
   actions: {
     login({commit}, user) {
         return new Promise((resolve, reject) => {
-          Axios.post('/login?XDEBUG_SESSION_START=vscode', user)
+          Axios.post('/login', user)
             .then( response => {
               if(response.data.access_token) {
                 const access_token = response.data.access_token
