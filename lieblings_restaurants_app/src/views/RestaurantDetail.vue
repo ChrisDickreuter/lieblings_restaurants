@@ -105,30 +105,51 @@ export default {
     methods: {
         fetchData() {
             this.loading = true
-            apiRestaurant.getById(this.$route.params.id)
-                .then(response => {
-                    this.restaurant = response.data.restaurant
-                    this.$store.commit("setSelectedRestaurant", response.data.restaurant)
-                    this.loading = false
-                })
-                .catch((error) => {
-                    this.loading = false
-                    console.log(error);
-                })
+
+            if(this.isOnline) {
+                apiRestaurant.getById(this.$route.params.id)
+                    .then(response => {
+                        this.restaurant = response.data.restaurant
+                        this.$store.commit("setSelectedRestaurant", response.data.restaurant)
+                        this.loading = false
+                    })
+                    .catch((error) => {
+                        this.loading = false
+                        console.log(error);
+                    })
+            } else {
+                let storedRestaurants = this.$offlineStorage.get('restaurants')
+                this.restaurant = storedRestaurants.find(bar => bar.id == this.$route.params.id)
+                this.loading = false
+            }
         },
         onSubmit() {
-            this.comment.restaurant_id = this.restaurant.id 
-            this.comment.user_name = this.$store.getters.user
-            apiComment.store(this.comment)
-                .then(() => {
-                    this.comment.comment = ""
-                    this.$store.commit("setSnackbarInfo","Restaurant wurde kommentiert")
-                    this.$store.commit("toggleSnackbar")
-                    this.fetchData()
-                })
+            if(this.isOnline) {
+                this.comment.restaurant_id = this.restaurant.id 
+                this.comment.user_name = this.$store.getters.user
+                apiComment.store(this.comment)
+                    .then(() => {
+                        this.comment.comment = ""
+                        this.$store.commit("setsnackbarColor", 'error')
+                        this.$store.commit("setSnackbarInfo","Restaurant wurde kommentiert")
+                        this.$store.commit("toggleSnackbar")
+                        this.fetchData()
+                    })
+            } else {
+                this.$store.commit("setsnackbarColor", 'warning')
+                this.$store.commit("setSnackbarInfo","Du musst online sein, um ein Restaurant kommentieren zu können.")
+                this.$store.commit("toggleSnackbar")
+            }
         },
         routeToEdit() {
-            this.$router.push({name: 'RestaurantEdit'})
+            if(this.isOnline) {
+                this.$router.push({name: 'RestaurantEdit'})
+            } else {
+                this.$store.commit("setsnackbarColor", 'warning')
+                this.$store.commit("setSnackbarInfo","Du musst online sein, um ein Restaurant bearbeiten zu können.")
+                this.$store.commit("toggleSnackbar")
+            }
+            
         },
         close() {
             this.$store.commit("toggleSnackbar")

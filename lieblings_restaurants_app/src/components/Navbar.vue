@@ -103,9 +103,9 @@ export default {
         return {
             isNavShown: false,
             isFilterShown: false,
-            links: [
-                {id:1, text: 'Restaurants ansehen', icon: 'fa-cutlery' , target: 'Restaurants'},
-                {id:2, text: 'Restaurant hinzufügen', icon: 'fa-plus-circle' , target: 'RestaurantCreate'},
+            linkList: [
+                {id:1, text: 'Restaurants ansehen', icon: 'fa-cutlery' , target: 'Restaurants', offline: true},
+                {id:2, text: 'Restaurant hinzufügen', icon: 'fa-plus-circle' , target: 'RestaurantCreate', offline: false},
             ],
             selectedCuisines: [],
             selectedCities: [],
@@ -123,6 +123,14 @@ export default {
         cities() {
             return this.$store.getters.cities
         },
+        links() {
+            if(this.isOnline) {
+                 return this.linkList
+            } else {
+                return this.linkList.filter(link => link.offline === true)
+            }
+           
+        }
     },
 
     methods: {

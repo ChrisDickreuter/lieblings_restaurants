@@ -82,9 +82,12 @@ export default {
     methods: {
         fetchData() {
             this.loading = true
-            api.all()
+
+            if(this.isOnline) {
+                api.all()
                 .then(response => {
                     this.restaurants = response.data.restaurants.sort((a,b)=> (a.name > b.name ? 1 : -1))
+                    this.$offlineStorage.set('restaurants', this.restaurants)
                     let cuisines = this.restaurants.map(restaurant => restaurant.cuisine)
                     let uniquecuisines = cuisines.filter((item, index) => cuisines.indexOf(item) == index)
                     this.$store.commit("setCuisines", uniquecuisines)   
@@ -97,6 +100,16 @@ export default {
                     this.loading = false
                     console.log(error);
                 })
+            } else {
+                this.restaurants = this.$offlineStorage.get('restaurants')
+                let cuisines = this.restaurants.map(restaurant => restaurant.cuisine)
+                let uniquecuisines = cuisines.filter((item, index) => cuisines.indexOf(item) == index)
+                this.$store.commit("setCuisines", uniquecuisines)   
+                let cities = this.restaurants.map(restaurant => restaurant.city)
+                let uniquecities = cities.filter((item, index) => cities.indexOf(item) == index)
+                this.$store.commit("setCities", uniquecities)
+                this.loading = false
+            }
         },
         routeTo(id) {
             this.$router.push({name: 'RestaurantDeatil', params: {id}})
