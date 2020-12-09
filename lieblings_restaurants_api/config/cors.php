@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://restaurantfinder.jenny-chris.de'],
+    'allowed_origins' => ['https://restaurantfinder.jenny-chris.de/'],
 
     'allowed_origins_patterns' => [],
 
