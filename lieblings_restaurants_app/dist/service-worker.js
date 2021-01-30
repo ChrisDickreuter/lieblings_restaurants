@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.9f89237004a6c8c7092555a26ff3bafe.js"
+  "/precache-manifest.cc5fd5c03ff326105a59161c66952616.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "lieblings_restaurants_app"});
