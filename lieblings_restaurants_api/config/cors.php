@@ -21,7 +21,7 @@ return [
 
     'allowed_origins' => ['https://lieblings-restaurants.higgenz.de'],
 
-    'allowed_origins_patterns' => ['*'],
+    'allowed_origins_patterns' => [''],
 
     'allowed_headers' => ['*'],
 
