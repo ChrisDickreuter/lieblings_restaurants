@@ -53,8 +53,8 @@
                         <v-list three-line class="mx-3">                    
                             <v-list-item  v-for="comment in restaurant.comments" :key="comment.id">
                                 <v-list-item-content>
-                                    <v-list-item-title class="title">{{comment.user_name}} <span class="caption">{{comment.created_at | moment("from", "now")}}</span></v-list-item-title>
-                                    <v-list-item-subtitle class="body-2">{{comment.comment}}</v-list-item-subtitle>
+                                    <v-list-item-title class="title">{{comment.user_name}} <span class="caption pl-1">{{comment.created_at | moment("from", "now")}}</span></v-list-item-title>
+                                    <p class="body-2">{{comment.comment}}</p>
                                 </v-list-item-content>
                             </v-list-item> 
                         </v-list>
