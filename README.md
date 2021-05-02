@@ -1,7 +1,7 @@
 # Lieblings Restaurants Version 1
 Progressive Web-App (PWA) um Lieblings Restaurants abzuspeichern und später wieder zu finden.
 
-## Aufbau & Tech-Stack
+## Aufbau
 Die gesamte Web-Anwendung besteht aus drei Schichten:
 
 1. Schicht: MySQL Datenbank
