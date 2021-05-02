@@ -1,7 +1,7 @@
-# Lieblings Restaurants
-Progressive Web-App (PWA) um Lieblings Restaurants abzuspeichern und später wieder zu finden 
+# Lieblings Restaurants Version 1
+Progressive Web-App (PWA) um Lieblings Restaurants abzuspeichern und später wieder zu finden.
 
-## Aufbau 
+## Aufbau & Tech-Stack
 Die gesamte Web-Anwendung besteht aus drei Schichten:
 
 1. Schicht: MySQL Datenbank
@@ -54,4 +54,4 @@ Das Frontend ist fertig und es müssen noch folgende Arbeiten durchgeführt werd
 2. Im Backend-Verzeichnis (lieblings_restaurants_api) config\cors.php in 'allowed_origins' die Hauptdomain angeben
 
 
-Viel Spaß beim sammeln deiner Lieblings Restaurants
+Viel Spaß beim sammeln deiner Lieblings Restaurants!
